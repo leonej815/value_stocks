@@ -14,9 +14,11 @@ The watchlist displays candle charts for different timeframes and some valuation
 * Data Source: yfinance API
 
 ## Project Structure
+```text
 Value-Stocks/
 ├── app.py              # Dash application and UI layout
 ├── data_manager.py     # SQL logic and data transformation
 ├── assets/             # Custom CSS
 ├── data/               # SQLite database storage
 └── requirements.txt    # Project dependencies
+\```
