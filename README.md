@@ -17,8 +17,9 @@ The watchlist displays candle charts for different timeframes and some valuation
 ```text
 Value-Stocks/
 ├── app.py              # Dash application and UI layout
+├── run_daily.py         # Screener that stores ticker and candle data
 ├── data_manager.py     # SQL logic and data transformation
 ├── assets/             # Custom CSS
 ├── data/               # SQLite database storage
 └── requirements.txt    # Project dependencies
-\```
+```
