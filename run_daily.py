@@ -1,5 +1,5 @@
 from data_manager import(
-    db_init, 
+    get_db_conn, 
     get_filtered_symbols, 
     overnight_screener, 
     update_candles, 
@@ -8,7 +8,7 @@ from data_manager import(
 )
 
 def main():
-    db_conn = db_init()
+    db_conn = get_db_conn()
 
     print("Fetching symbols...")
     symbols = get_filtered_symbols()

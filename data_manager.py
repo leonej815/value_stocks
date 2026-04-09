@@ -5,12 +5,14 @@ import yfinance as yf
 import sqlite3
 import os
 
+
 def _get_db_path():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(base_dir, "data/stock_data.db")
     return db_path   
 
-def db_init():
+
+def get_db_conn():
     # create directory in the path if it is missing and connect
     db_path = _get_db_path()
     db_dir = os.path.dirname(db_path)
@@ -73,10 +75,6 @@ def db_init():
     print(f"Database created at {db_path}")
     return conn
 
-def get_db_conn():
-    db_path = _get_db_path()
-    conn = sqlite3.connect(db_path, timeout = 30)
-    return conn
 
 def get_filtered_symbols():
     # read the pipe delimted data on US equities into dataframes
@@ -128,6 +126,7 @@ def get_filtered_symbols():
     all_tickers = all_tickers[~((all_tickers.str.len() >= 5) & 
                                 all_tickers.str.endswith(("W", "P", "R", "Q", "Z", "F")))]      
     return sorted(all_tickers.unique().tolist())    
+
 
 def overnight_screener(symbol_list, db_conn):
     candidates = []
@@ -202,10 +201,12 @@ def overnight_screener(symbol_list, db_conn):
     df_candidates = pd.DataFrame(candidates)
     df_candidates.to_sql("watchlist", db_conn, if_exists="replace", index=False)
 
+
 def get_watchlist_symbols(db_conn):
     # load list of singles from watchlist table
     symbols = pd.read_sql("SELECT ticker FROM watchlist", db_conn)["ticker"].tolist()
     return symbols
+
 
 def get_watchlist_info(db_conn):
     try:
@@ -213,6 +214,7 @@ def get_watchlist_info(db_conn):
         db_conn.close()
         return df.to_dict("records")
     except: return []
+
 
 def update_candles(tickers, db_conn, period, interval):
     if not tickers: 
@@ -269,6 +271,7 @@ def update_candles(tickers, db_conn, period, interval):
     db_conn.execute("DROP TABLE IF EXISTS temp_candles")
     db_conn.commit()
 
+
 def cleanup_candles(db_conn):
     # clean eod_candles table
     retention_rules = {
@@ -303,6 +306,7 @@ def cleanup_candles(db_conn):
     except Exception as e:
         print(f"Post-cleanup optimization failed: {e}")
 
+
 def get_chart_data(db_conn):
     # load all candle data into dataframe for tickers in the watchlist
     query_eod = """
@@ -334,6 +338,7 @@ def get_chart_data(db_conn):
             limit = chart_candle_amounts[interval]
             candle_data[ticker][interval] = interval_df.tail(limit)           
     return candle_data
+
 
 def _get_fiveyear_candles(symbol_list_chunk):
     # get 2 year history of all symbols in chunk
