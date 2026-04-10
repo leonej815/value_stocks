@@ -1,0 +1,35 @@
+name: Daily Stock Scrape
+
+on:
+  schedule:
+    # this runs at 5:00 AM UTC (1:00 AM Eastern Time) every day
+    - cron: '0 5 * * *'
+  workflow_dispatch: # this adds a "Run Now" button in GitHub for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Scraper
+        run: python run_daily.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add data/stock_data.db
+          # the "|| exit 0" prevents the action from failing if no data changed
+          git commit -m "Automated data update" || exit 0
+          git push
