@@ -7,19 +7,25 @@ The watchlist displays candle charts for different timeframes and some valuation
 * run_daily.py collects candle data for the stocks that the screener yields. The collected candle data timeframes are 5 year with 3 month candles, 2 year with 1 month candles, 6 month with 1 week candles, 1 month with daily candles, 5 day with 30 minute candles.
 * app.py is the web application file. It loads the candle data for all the symbols, and displays the watchlist. The rows are clickable and expand showing metrics and, a candle chart that has buttons for the different time intervals.
 
+## Deployment
+* The app is currently hosted at https://value-stocks.onrender.com/
+* Automated Data Pipeline: A GitHub Actions workflow is configured to trigger run_daily.py every night at 5:00 AM UTC. The workflow handles environment setup, executes the screener, and commits the updated SQLite database back to the repository. The new commit triggers an automatic redeploy on Render.
+
 ## Tech Stack
 * Frontend: Dash (Plotly), Dash Bootstrap Components, HTML/CSS
 * Backend: Python 3.11
 * Database: SQLite3
 * Data Source: yfinance API
+* Automation/DevOps: GitHub Actions, Render (Web Service)
 
 ## Project Structure
 ```text
 Value-Stocks/
 ├── app.py              # Dash application and UI layout
-├── run_daily.py         # Screener that stores ticker and candle data
+├── run_daily.py        # Screener that stores ticker and candle data
 ├── data_manager.py     # SQL logic and data transformation
 ├── assets/             # Custom CSS
 ├── data/               # SQLite database storage
+├── .github/            # Contains the yaml file for github action
 └── requirements.txt    # Project dependencies
 ```
