@@ -3,7 +3,7 @@ name: Daily Stock Scrape
 on:
   schedule:
     # this runs at 5:00 AM UTC (1:00 AM Eastern Time) every day
-    - cron: '0 5 * * *'
+    - cron: '0 5 * * 1-5'
   workflow_dispatch: # this adds a "Run Now" button in GitHub for testing
 
 jobs:
