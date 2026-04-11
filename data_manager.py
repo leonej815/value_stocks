@@ -4,6 +4,7 @@ import pandas as pd
 import yfinance as yf
 import sqlite3
 import os
+import random
 
 
 def _get_db_path():
@@ -86,7 +87,6 @@ def get_filtered_symbols():
     nasdaq_df = nasdaq_df[:-1]
     other_df = other_df[:-1]
     # remove rows with non-common keywords in security name
-    # pike means or in regex
     exclude_keywords = [
         "WARRANT", "RIGHT", "UNITS?", "PREFERRED",
         "DEPOSITARY", "DEPOSITORY", "NOTE", "NOTES", "ETF", "TRUST", "DEBENTURE",
@@ -189,7 +189,7 @@ def overnight_screener(symbol_list, db_conn):
                     "fcf_yield": round(fcf_yield * 100, 1),
                     "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 })
-                time.sleep(0.5)
+                time.sleep(random.uniform(2, 5))
             except Exception as e:
                 print(f"Error skipping {symbol}: {e}")
                 continue
