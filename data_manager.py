@@ -150,6 +150,7 @@ def overnight_screener(symbol_list, db_conn):
                 # get more info for further validation        
                 ticker = yf.Ticker(symbol)
                 info = ticker.info
+                time.sleep(random.uniform(2, 5))
                 # must be a US company , be at least a large cap (>10 billion market cap)
                 # and have a positive dividend yield
                 if info.get("country") != "United States":
@@ -189,7 +190,6 @@ def overnight_screener(symbol_list, db_conn):
                     "fcf_yield": round(fcf_yield * 100, 1),
                     "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 })
-                time.sleep(random.uniform(2, 5))
             except Exception as e:
                 print(f"Error skipping {symbol}: {e}")
                 continue
