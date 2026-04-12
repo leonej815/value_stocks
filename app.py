@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
 import dash
 from dash import dcc, html, Input, Output, State, ctx, ALL, MATCH
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
 from data_manager import get_chart_data, get_db_conn, get_watchlist_info
+
 
 db_conn = get_db_conn()
 candle_data = get_chart_data(db_conn)

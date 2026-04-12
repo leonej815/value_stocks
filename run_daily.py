@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 from data_manager import(
     get_db_conn, 
     get_filtered_symbols, 
@@ -6,6 +8,7 @@ from data_manager import(
     get_watchlist_symbols, 
     cleanup_candles
 )
+
 
 def main():
     db_conn = get_db_conn()

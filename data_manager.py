@@ -8,8 +8,12 @@ import random
 
 
 def _get_db_path():
+    if os.getenv("APP_ENV") == "development":
+        db_name = "test_stock_data.db"
+    else:
+        db_name = "stock_data.db"
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(base_dir, "data/stock_data.db")
+    db_path = os.path.join(base_dir, "data", db_name)
     return db_path   
 
 
