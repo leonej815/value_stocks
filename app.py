@@ -16,7 +16,7 @@ chart_to_interval = {
     "5Y": "3mo"
 }
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.CYBORG, dbc.icons.BOOTSTRAP])
+app = dash.Dash(__name__, title="Value Stocks", external_stylesheets=[dbc.themes.CYBORG, dbc.icons.BOOTSTRAP])
 server = app.server
 
 app.layout = dbc.Container([
