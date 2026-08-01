@@ -5,6 +5,7 @@ import yfinance as yf
 import sqlite3
 import os
 import random
+from curl_cffi import requests as curl_requests
 
 
 def _get_db_path():
@@ -284,6 +285,10 @@ def update_candles(tickers, db_conn, period, interval):
     # download candles from yahoo finance
     max_retries = 3
     yf_candle_df = pd.DataFrame()
+
+    # generate the browser impersonating session
+    session = get_curl_session()
+
     for attempt in range(max_retries):
         try:
             yf_candle_df = yf.download(
@@ -292,7 +297,8 @@ def update_candles(tickers, db_conn, period, interval):
                 interval=interval, 
                 group_by="ticker",
                 progress=False,
-                threads=False
+                threads=False,
+                session=session
             )
             if not yf_candle_df.empty:
                 break
@@ -452,9 +458,13 @@ def _get_fiveyear_candles(symbol_list_chunk):
         candle_dict dict: format {symbol: [candle data list]}
     """
 
-    # get five year history of all symbols in chunk
     data = pd.DataFrame()
     max_retries = 3
+
+    # generate the browser impersonating session
+    session = get_curl_session()
+
+    # get five year history of all symbols in chunk
     for attempt in range(max_retries):
         try:
             data = yf.download(
@@ -462,7 +472,8 @@ def _get_fiveyear_candles(symbol_list_chunk):
                 period = "5y", 
                 group_by = "ticker", 
                 threads = False, 
-                progress = False
+                progress = False,
+                session=session
             )
             if not data.empty:
                 break
@@ -499,3 +510,9 @@ def _get_fiveyear_candles(symbol_list_chunk):
             continue
 
     return candle_dict
+
+
+def get_curl_session():
+    """Creates a curl_cffi session that impersonates a standard Chrome browser"""
+    session = curl_requests.Session(impersonate="chrome")
+    return session

@@ -26,7 +26,7 @@ def main():
 
     # timeframes and candle intervals to retrieve candles for
     candle_info = [
-            ("5y", "1mo", "monthly"),
+            ("max", "1mo", "monthly"),
             ("1y", "1wk", "weekly"),
             ("1mo", "1d", "daily"),
             ("5d", "30m", "30-minute")
