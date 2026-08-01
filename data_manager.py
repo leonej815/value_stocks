@@ -376,8 +376,7 @@ def cleanup_candles(db_conn):
     retention_rules = {
         "1d": "-60 days",
         "1wk": "-360 days",
-        "1mo": "-1100 days",
-        "3mo": "-2200 days"
+        "1mo": "-2000 days"
     }
     for interval in retention_rules:
         limit = retention_rules[interval]
@@ -425,10 +424,9 @@ def get_chart_data(db_conn):
     df_intraday = pd.read_sql(query_intraday, db_conn)
     all_data_df = pd.concat([df_eod, df_intraday])
 
-    # chart windows
+    # amount of candles needed for each candle interval
     chart_candle_amounts = {
-        "3mo": 20,
-        "1mo": 24,
+        "1mo": 60,
         "1wk": 26,
         "1d": 30,
         "30m": 65
