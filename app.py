@@ -9,7 +9,8 @@ from data_manager import get_chart_data, get_db_conn, get_watchlist_info
 
 
 db_conn = get_db_conn()
-db_conn.execute_sql("DELETE FROM eod_candles WHERE interval = '3mo';")
+db_conn.execute("DELETE FROM eod_candles WHERE interval = '3mo';")
+db_conn.commit()
 
 # (dict[str, dict[str, Dataframe]]): nested dictionary where first level keys are stock symbols and second level keys are the candle intervals and the value is the associated candle dataframe
 CANDLE_DATA = get_chart_data(db_conn)
