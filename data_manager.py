@@ -376,7 +376,8 @@ def cleanup_candles(db_conn):
     retention_rules = {
         "1d": "-60 days",
         "1wk": "-360 days",
-        "1mo": "-2000 days"
+        "1mo": "-2000 days",
+        "3mo": "-2 days"
     }
     for interval in retention_rules:
         limit = retention_rules[interval]
@@ -437,7 +438,7 @@ def get_chart_data(db_conn):
     for ticker, ticker_df in all_data_df.groupby("ticker"):
         candle_data[ticker] = {}
         for interval, interval_df in ticker_df.groupby("interval"):
-            limit = chart_candle_amounts[interval]
+            limit = chart_candle_amounts.get(interval, 0)
             candle_data[ticker][interval] = interval_df.tail(limit)
 
     return candle_data
