@@ -60,7 +60,7 @@ def render_list(_):
     for stock_info in WATCHLIST_DATA:
         ticker = stock_info["ticker"]
         quick_ratio = stock_info.get("quick_ratio", 0)
-        quick_ratio_color = "#00ff88" if quick_ratio >= 1.0 else "#ffcc00"
+        quick_ratio_color = "#008949" if quick_ratio >= 1.0 else "#ffcc00"
         
         rows.append(html.Div([
             # watchlist row showing ticker, price, distance from 2 yr low and the expandable arrow
@@ -289,8 +289,8 @@ def create_chart(ticker, timeframe):
         open=candle_df["open"], 
         high=candle_df["high"], 
         low=candle_df["low"], 
-        close=candle_df["close"],
-        increasing_line_color="#00ff88", 
+        close=candle_df["close"], 
+        increasing_line_color="#008949", 
         decreasing_line_color="#ff3333",
         customdata=hover_text_list,
         hovertemplate="<b>%{customdata}</b><br>O: %{open:.2f} H: %{high:.2f}<br>L: %{low:.2f} C: %{close:.2f}<extra></extra>"
@@ -305,14 +305,14 @@ def create_chart(ticker, timeframe):
         text=f"HI: ${max_p:.2f}", 
         showarrow=False, 
         yanchor="bottom", 
-        font=dict(size=10, color="#00ff88"), 
+        font=dict(size=10, color="#008949"), 
         yshift=5
     )
     fig.add_annotation(
         x=lo_pos, 
         y=min_p, 
         text=f"LO: ${min_p:.2f}", 
-        showarrow=False, 
+        showarrow=False,
         yanchor="top", 
         font=dict(size=10, color="#ff3333"), yshift=-5
     )
